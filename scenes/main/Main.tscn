@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://be8ehtefkpryg"]
+[gd_scene load_steps=12 format=3 uid="uid://be8ehtefkpryg"]
 
 [ext_resource type="PackedScene" uid="uid://bw8y2s3txvtgp" path="res://scenes/main/Lane.tscn" id="1_lane"]
 [ext_resource type="PackedScene" uid="uid://dx53ovx1em4jq" path="res://scenes/ui/Dice.tscn" id="2_dice"]
@@ -8,8 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b8k7m2oax5q1w" path="res://scenes/ui/CardShuffle.tscn" id="6_cardshuffle"]
 [ext_resource type="Script" uid="uid://uhoxvsbaku2u" path="res://scripts/managers/AudioManager.gd" id="7_audiomanager"]
 [ext_resource type="Theme" uid="uid://caetchwhyjrs4" path="res://scripts/gameplay/themes/default.tres" id="8_ostsq"]
-[ext_resource type="Script" path="res://scripts/main/MainScene.gd" id="9_mainscene"]
-
+[ext_resource type="Script" uid="uid://k1r6djctruxq" path="res://scripts/main/MainScene.gd" id="9_mainscene"]
 
 [sub_resource type="Theme" id="Theme_sjxhf"]
 default_font = ExtResource("5_1rhdn")
@@ -23,14 +22,13 @@ script = ExtResource("9_mainscene")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(512, 384)
 
-
 [node name="LaneInstance" parent="." instance=ExtResource("1_lane")]
 position = Vector2(512, 384)
 scale = Vector2(2.7, 2.7)
 
 [node name="Dice2D" parent="." instance=ExtResource("2_dice")]
 position = Vector2(100, 100)
-scale = Vector2(4, 4)
+scale = Vector2(6, 6)
 
 [node name="VerseTimer" type="Timer" parent="."]
 wait_time = 10.0

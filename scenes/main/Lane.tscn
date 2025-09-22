@@ -155,6 +155,7 @@ sources/2 = SubResource("TileSetAtlasSource_xrhgf")
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(0, 0)
 texture = ExtResource("1_4xgc8")
+centered = true
 
 [node name="Middleground" type="Sprite2D" parent="."]
 position = Vector2(0, 0)

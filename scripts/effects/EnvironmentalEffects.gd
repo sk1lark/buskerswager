@@ -75,7 +75,7 @@ func _setup_particles():
 
 	ambient_particles.process_material = ambient_material
 	ambient_particles.amount = 25
-	ambient_particles.emission_rect_extents = Vector2(500, 10)
+	# Note: emission_rect_extents was deprecated, using emission_sphere_radius or other methods
 	ambient_particles.position = Vector2(0, -200)
 	ambient_particles.emitting = true
 
@@ -97,7 +97,7 @@ func _setup_particles():
 
 	performance_sparkles.process_material = sparkle_material
 	performance_sparkles.amount = 15
-	performance_sparkles.emission_rect_extents = Vector2(30, 30)
+	# Note: emission_rect_extents was deprecated
 	performance_sparkles.emitting = false
 
 func start_performance_effects(busker_position: Vector2):
@@ -125,29 +125,29 @@ func stop_performance_effects():
 		restore_tween.parallel().tween_property(light, "modulate:a", original_alpha, 1.0)
 
 # Call this for dramatic events
-func trigger_event_effect(effect_type: String, position: Vector2):
+func trigger_event_effect(effect_type: String, pos: Vector2):
 	match effect_type:
 		"generous":
-			_create_coin_sparkle(position)
+			_create_coin_sparkle(pos)
 		"dance":
-			_create_dance_confetti(position)
+			_create_dance_confetti(pos)
 		"heckle":
-			_create_angry_smoke(position)
+			_create_angry_smoke(pos)
 
 func _create_coin_sparkle(pos: Vector2):
 	var coin_particles = GPUParticles2D.new()
 	add_child(coin_particles)
 
-	var material = ParticleProcessMaterial.new()
-	material.direction = Vector3(0, -1, 0)
-	material.initial_velocity_min = 40.0
-	material.initial_velocity_max = 80.0
-	material.gravity = Vector3(0, 50, 0)
-	material.scale_min = 0.3
-	material.scale_max = 0.6
-	material.color = Color(1.0, 0.8, 0.2, 1.0)
+	var particle_material = ParticleProcessMaterial.new()
+	particle_material.direction = Vector3(0, -1, 0)
+	particle_material.initial_velocity_min = 40.0
+	particle_material.initial_velocity_max = 80.0
+	particle_material.gravity = Vector3(0, 50, 0)
+	particle_material.scale_min = 0.3
+	particle_material.scale_max = 0.6
+	particle_material.color = Color(1.0, 0.8, 0.2, 1.0)
 
-	coin_particles.process_material = material
+	coin_particles.process_material = particle_material
 	coin_particles.amount = 8
 	coin_particles.position = pos
 	coin_particles.emitting = true
@@ -161,18 +161,18 @@ func _create_dance_confetti(pos: Vector2):
 	var confetti = GPUParticles2D.new()
 	add_child(confetti)
 
-	var material = ParticleProcessMaterial.new()
-	material.direction = Vector3(0, -1, 0)
-	material.initial_velocity_min = 60.0
-	material.initial_velocity_max = 120.0
-	material.gravity = Vector3(0, 100, 0)
-	material.scale_min = 0.2
-	material.scale_max = 0.5
-	material.color = Color(rng.randf(), rng.randf(), rng.randf(), 0.9)
-	material.hue_variation_min = -0.5
-	material.hue_variation_max = 0.5
+	var confetti_material = ParticleProcessMaterial.new()
+	confetti_material.direction = Vector3(0, -1, 0)
+	confetti_material.initial_velocity_min = 60.0
+	confetti_material.initial_velocity_max = 120.0
+	confetti_material.gravity = Vector3(0, 100, 0)
+	confetti_material.scale_min = 0.2
+	confetti_material.scale_max = 0.5
+	confetti_material.color = Color(rng.randf(), rng.randf(), rng.randf(), 0.9)
+	confetti_material.hue_variation_min = -0.5
+	confetti_material.hue_variation_max = 0.5
 
-	confetti.process_material = material
+	confetti.process_material = confetti_material
 	confetti.amount = 20
 	confetti.position = pos + Vector2(0, -30)
 	confetti.emitting = true
@@ -185,16 +185,16 @@ func _create_angry_smoke(pos: Vector2):
 	var smoke = GPUParticles2D.new()
 	add_child(smoke)
 
-	var material = ParticleProcessMaterial.new()
-	material.direction = Vector3(0, -1, 0)
-	material.initial_velocity_min = 30.0
-	material.initial_velocity_max = 50.0
-	material.gravity = Vector3(0, -20, 0)
-	material.scale_min = 0.4
-	material.scale_max = 1.0
-	material.color = Color(0.3, 0.1, 0.1, 0.6)
+	var smoke_material = ParticleProcessMaterial.new()
+	smoke_material.direction = Vector3(0, -1, 0)
+	smoke_material.initial_velocity_min = 30.0
+	smoke_material.initial_velocity_max = 50.0
+	smoke_material.gravity = Vector3(0, -20, 0)
+	smoke_material.scale_min = 0.4
+	smoke_material.scale_max = 1.0
+	smoke_material.color = Color(0.3, 0.1, 0.1, 0.6)
 
-	smoke.process_material = material
+	smoke.process_material = smoke_material
 	smoke.amount = 12
 	smoke.position = pos + Vector2(0, -10)
 	smoke.emitting = true

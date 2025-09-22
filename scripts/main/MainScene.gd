@@ -6,7 +6,8 @@ func _ready():
 	print("main scene: checking children...")
 	for child in get_children():
 		print("main scene: child found: ", child.name, " - ", child.get_class())
-		if child.visible == false:
+		# Only check visibility for nodes that have a visible property (CanvasItems)
+		if child is CanvasItem and child.visible == false:
 			print("main scene: WARNING - ", child.name, " is not visible!")
 	
 	# Check if LaneInstance is properly loaded
