@@ -3,24 +3,24 @@ class_name GameManager
 
 enum Mood { HECKLERS = 1, DISTRACTED = 2, GENEROUS = 3, CRITICS = 4, DANCERS = 5, ENCORE = 6 }
 
-# Game state
+# game state stuff
 var tips_total = 0
 var nightly_goal = 30
 var rerolls_available = 1
 var current_mood = Mood.DISTRACTED
 var verse_active = false
 
-# Mood configuration
+# different crowd moods and their vibes
 var mood_data = {
-	Mood.HECKLERS: {"name": "Hostile Crowd", "mult": 0.6, "event_odds": 0.45},
-	Mood.DISTRACTED: {"name": "Distracted Walkers", "mult": 0.8, "event_odds": 0.30},
-	Mood.GENEROUS: {"name": "Generous Tourists", "mult": 1.6, "event_odds": 0.40},
-	Mood.CRITICS: {"name": "Art Critics", "mult": 1.1, "event_odds": 0.55},
-	Mood.DANCERS: {"name": "Festival Dancers", "mult": 1.3, "event_odds": 0.65},
-	Mood.ENCORE: {"name": "Encore Fever!", "mult": 1.8, "event_odds": 0.50}
+	Mood.HECKLERS: {"name": "hostile crowd", "mult": 0.6, "event_odds": 0.45},
+	Mood.DISTRACTED: {"name": "distracted walkers", "mult": 0.8, "event_odds": 0.30},
+	Mood.GENEROUS: {"name": "generous tourists", "mult": 1.6, "event_odds": 0.40},
+	Mood.CRITICS: {"name": "art critics", "mult": 1.1, "event_odds": 0.55},
+	Mood.DANCERS: {"name": "festival dancers", "mult": 1.3, "event_odds": 0.65},
+	Mood.ENCORE: {"name": "encore fever!", "mult": 1.8, "event_odds": 0.50}
 }
 
-# Event tables
+# random events that can happen
 var event_tables = {
 	Mood.HECKLERS: [
 		{"name": "Angry Shouts", "tip_delta": -3, "weight": 4, "effect": "heckle"},

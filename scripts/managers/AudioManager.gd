@@ -1,11 +1,12 @@
 extends Node
 
+# audio players for different sound types
 var music_player: AudioStreamPlayer
 var sfx_player: AudioStreamPlayer
 var ambient_player: AudioStreamPlayer
 var performance_player: AudioStreamPlayer
 
-# Performance music tracks
+# lute tracks that play during busker performances
 var performance_tracks = [
     "res://assets/audio/music/performance/lute1.ogg",
     "res://assets/audio/music/performance/lute2.ogg", 
@@ -15,8 +16,8 @@ var performance_tracks = [
 var is_performing = false
 
 func _ready():
-    print("AudioManager: Initializing...")
-    # Create audio players
+    print("audiomanager: starting up...")
+    # make all the audio players we need
     music_player = AudioStreamPlayer.new()
     music_player.volume_db = -12.0
     add_child(music_player)
@@ -31,7 +32,7 @@ func _ready():
     
     # Create performance player for busker music
     performance_player = AudioStreamPlayer.new()
-    performance_player.volume_db = -8.0  # Slightly louder for performance
+    performance_player.volume_db = -8.0  # bit louder for performance vibes
     add_child(performance_player)
 
     # Connect signal for when performance track finishes
