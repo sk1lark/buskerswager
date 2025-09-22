@@ -40,8 +40,4 @@ you're a street busker trying to make some coin! roll dice to determine your per
 
 - lute music tracks (add your credits here!)
 - gothicvania asset pack
-- made with love for hack club shiba
-
----
-
-*this is just a fun little game project, no big deal. enjoy the vibes! ✨*
+- made with love for hackclub shiba (i'm praying for tokyo!!!!!)
