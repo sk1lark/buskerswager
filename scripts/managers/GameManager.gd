@@ -77,27 +77,50 @@ var card_shuffle_active = false  # Prevent multiple card shuffles
 @onready var lane: Node = $"../LaneInstance"
 @onready var busker: Node = $"../BuskerInstance"
 @onready var audio_manager: Node = $"../AudioManager"
+var environmental_effects: Node2D
 
 var rng = RandomNumberGenerator.new()
 
 func _ready():
+	print("gamemanager: starting up...")
 	rng.randomize()
 	# Wait for all nodes to be ready
 	await get_tree().process_frame
+	
+	# Debug - check if all nodes exist
+	print("gamemanager: checking nodes...")
+	if not dice:
+		print("ERROR: dice node not found!")
+		return
+	if not busker:
+		print("ERROR: busker node not found!")
+		return
+	if not lane:
+		print("ERROR: lane node not found!")
+		return
+	if not mood_label:
+		print("ERROR: mood_label not found!")
+		return
+	print("gamemanager: all nodes found!")
 
 	# Connect signals with error checking
 	if dice.has_signal("dice_rolled"):
 		dice.dice_rolled.connect(_on_dice_roll_complete)
+		print("gamemanager: dice signal connected")
 	else:
 		print("Warning: Dice node doesn't have dice_rolled signal")
 
 	verse_timer.timeout.connect(_on_verse_complete)
 	reroll_button.pressed.connect(_on_reroll_pressed)
-	
+
 	# Setup card shuffle system
 	_setup_card_shuffle()
-	
+
+	# Setup environmental effects
+	_setup_environmental_effects()
+
 	_start_new_night()
+	print("gamemanager: initialization complete!")
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):  # ESC key
@@ -137,6 +160,10 @@ func _on_dice_roll_complete(value: int):
 	if audio_manager:
 		audio_manager.start_performance_music()
 
+	# Start environmental effects
+	if environmental_effects:
+		environmental_effects.start_performance_effects(busker.global_position)
+
 	verse_timer.start()
 	var spawner = lane.get_node("PedestrianSpawner")
 	var mood_info = mood_data[current_mood]
@@ -149,6 +176,10 @@ func _on_verse_complete():
 	# Stop performance music
 	if audio_manager:
 		audio_manager.stop_performance_music()
+
+	# Stop environmental effects
+	if environmental_effects:
+		environmental_effects.stop_performance_effects()
 
 	var mood_info = mood_data[current_mood]
 	var event_fired = rng.randf() < mood_info["event_odds"]
@@ -183,10 +214,28 @@ func _trigger_crowd_effect(effect_type: String):
 	if target:
 		target.perform_event(effect_type)
 
+		# Add environmental effect for the event
+		if environmental_effects:
+			environmental_effects.trigger_event_effect(effect_type, target.global_position)
+
 func _check_win_condition():
 	if tips_total >= nightly_goal:
 		mood_label.text = "SUCCESS! New strings acquired!"
 		reroll_button.disabled = true
+
+		# Stop all performance activities and music when winning
+		verse_active = false
+		busker.stop_performance()
+		if audio_manager:
+			audio_manager.stop_performance_music()
+
+		# Stop environmental effects
+		if environmental_effects:
+			environmental_effects.stop_performance_effects()
+
+		# Stop the verse timer if it's running
+		if verse_timer:
+			verse_timer.stop()
 	else:
 		await get_tree().create_timer(2.0).timeout
 		_prepare_verse()
@@ -265,6 +314,16 @@ func show_notification(message: String, duration: float = 2.0):
 	# Fade out
 	tween = create_tween()
 	tween.tween_property(notification_label, "modulate:a", 0.0, 0.3)
+
+# Environmental Effects Setup
+func _setup_environmental_effects():
+	# Create and setup environmental effects
+	var EnvironmentalEffectsScene = preload("res://scripts/effects/EnvironmentalEffects.gd")
+	environmental_effects = Node2D.new()
+	environmental_effects.name = "EnvironmentalEffects"
+	environmental_effects.set_script(EnvironmentalEffectsScene)
+	get_parent().add_child(environmental_effects)
+	print("Environmental effects system ready!")
 
 # Pedestrian card request handler
 func _on_pedestrian_card_request(pedestrian: Pedestrian):

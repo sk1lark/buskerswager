@@ -5,10 +5,6 @@
 [ext_resource type="FontFile" uid="uid://bgr7b8tjgdv0x" path="res://assets/fonts/XeDogmaRegular-JZwB.ttf" id="3_jsqgk"]
 [ext_resource type="Texture2D" path="res://assets/sprites/busker's wager.jpg" id="4_background"]
 [ext_resource type="AudioStream" uid="uid://b8g7rxvn0nvxr" path="res://assets/audio/music/splash/splash.ogg" id="5_splash_music"]
-[ext_resource type="Shader" uid="uid://brgb71bcwp78m" path="res://assets/shaders/crt_shader.gdshader" id="6_crt_shader"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_crt_splash"]
-shader = ExtResource("6_crt_shader")
 
 [sub_resource type="Theme" id="Theme_splash"]
 default_font = ExtResource("1_title_font")
@@ -99,11 +95,3 @@ stream = ExtResource("5_splash_music")
 volume_db = -5.0
 autoplay = false
 
-[node name="CRTOverlay" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-material = SubResource("ShaderMaterial_crt_splash")
-color = Color(1, 1, 1, 0)
-mouse_filter = 2

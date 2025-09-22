@@ -74,6 +74,7 @@ func _on_button_release(button: Button):
 	tween.tween_property(button, "scale", Vector2(1.1, 1.1), 0.1).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 
 func _on_play_pressed():
+	print("splashscreen: play button pressed!")
 	# Animate out before changing scene
 	var tween = create_tween()
 	tween.parallel().tween_property(self, "modulate:a", 0.0, 0.5)
@@ -81,7 +82,9 @@ func _on_play_pressed():
 	await tween.finished
 
 	# Change to main game scene
+	print("splashscreen: changing to main scene...")
 	get_tree().change_scene_to_file("res://scenes/main/Main.tscn")
+	print("splashscreen: scene change called!")
 
 func _on_quit_pressed():
 	# Animate out before quitting

@@ -6,12 +6,13 @@ signal card_shuffle_requested(pedestrian: Pedestrian)
 # Character node names as they appear in the scene
 const CHARACTER_NODES = [
 	"bearded",
-	"old man", 
+	"old man",
 	"woman",
     "hat man"
 ]
 
 @onready var current_sprite: AnimatedSprite2D
+@onready var shadow: Sprite2D
 var rng = RandomNumberGenerator.new()
 var character_type: int
 var direction = Vector2.LEFT
@@ -20,6 +21,7 @@ var is_performing_event = false
 var street_y = 130  # Ground level position matching where busker stands
 var has_stopped_for_cards = false
 var stop_chance = 0.3  # 30% chance to stop for cards
+var base_scale = 1.0  # Store original scale for depth effects
 
 func _ready():
 	rng.randomize()
@@ -41,7 +43,7 @@ func _setup_character():
 	for node_name in CHARACTER_NODES:
 		var sprite_node = get_node(node_name)
 		sprite_node.visible = false
-	
+
 	# Show and set up the selected character
 	var selected_character = CHARACTER_NODES[character_type]
 	current_sprite = get_node(selected_character)
@@ -49,10 +51,23 @@ func _setup_character():
 	current_sprite.animation = "walk"
 	current_sprite.play()
 
+	# Create shadow for depth
+	_create_shadow()
+
+	# Add slight random scale variation for visual diversity
+	base_scale = rng.randf_range(0.9, 1.1)
+	current_sprite.scale = Vector2(base_scale, base_scale)
+
 func _setup_movement():
 	# Lane's local coordinate system - spawn off the sides of the lane area
-	position.y = street_y + rng.randi_range(-20, 20)
-	
+	var y_offset = rng.randi_range(-30, 30)
+	position.y = street_y + y_offset
+
+	# Scale based on y position for depth effect (closer = bigger)
+	var depth_scale = 1.0 + (y_offset * 0.004)  # Subtle depth scaling
+	base_scale *= depth_scale
+	current_sprite.scale = Vector2(base_scale, base_scale)
+
 	if rng.randi() % 2 == 0:
 		direction = Vector2.RIGHT
 		position.x = -200  # Left side of lane area
@@ -61,6 +76,9 @@ func _setup_movement():
 		direction = Vector2.LEFT
 		position.x = 200   # Right side of lane area
 		current_sprite.flip_h = true
+
+	# Vary walking speed slightly
+	speed = rng.randf_range(70.0, 90.0)
 
 func _process(delta):
 	if not is_performing_event:
@@ -91,40 +109,62 @@ func perform_event(event_type: String):
 			_perform_heckle()
 
 func _perform_generous():
-	# Glow effect for generous tip
-	current_sprite.modulate = Color(1.2, 1.2, 0.8)
-	
-	# Create floating coin effect
-	var _coin_pos = position + Vector2(0, -30)
-	# Add particle effect here if desired
-	
+	# Enhanced glow effect for generous tip
+	var glow_tween = create_tween()
+	glow_tween.set_loops(3)
+	glow_tween.tween_property(current_sprite, "modulate", Color(1.3, 1.2, 0.7), 0.4)
+	glow_tween.tween_property(current_sprite, "modulate", Color(1.1, 1.1, 0.9), 0.4)
+
+	# Floating animation with sparkle effect
+	var float_tween = create_tween()
+	float_tween.tween_property(current_sprite, "position", Vector2(0, -8), 0.8)
+	float_tween.tween_property(current_sprite, "position", Vector2.ZERO, 0.8)
+
 	await get_tree().create_timer(2.5).timeout
 	current_sprite.modulate = Color.WHITE
 	_resume_walking()
 
 func _perform_dance():
-	# Bounce and sway animation
-	var tween = create_tween()
-	tween.set_loops(4)
-	tween.tween_property(self, "position:y", position.y - 20, 0.4)
-	tween.tween_property(self, "position:y", position.y, 0.4)
-	
-	await get_tree().create_timer(3.0).timeout
+	# Enhanced dancing with rotation and scaling
+	var dance_tween = create_tween()
+	dance_tween.set_loops(4)
+
+	# Bouncy dance with slight rotation and scale
+	dance_tween.parallel().tween_property(self, "position:y", position.y - 25, 0.3)
+	dance_tween.parallel().tween_property(current_sprite, "rotation", deg_to_rad(10), 0.3)
+	dance_tween.parallel().tween_property(current_sprite, "scale", Vector2(base_scale * 1.1, base_scale * 1.1), 0.3)
+
+	dance_tween.parallel().tween_property(self, "position:y", position.y, 0.3)
+	dance_tween.parallel().tween_property(current_sprite, "rotation", deg_to_rad(-10), 0.3)
+	dance_tween.parallel().tween_property(current_sprite, "scale", Vector2(base_scale * 0.95, base_scale * 1.05), 0.3)
+
+	await get_tree().create_timer(3.2).timeout
+
+	# Reset properties
+	current_sprite.rotation = 0
+	current_sprite.scale = Vector2(base_scale, base_scale)
 	_resume_walking()
 
 func _perform_heckle():
-	# Red angry tint
-	current_sprite.modulate = Color.RED
-	# Shake effect
+	# Enhanced angry effect with color cycling and aggressive shaking
+	var angry_tween = create_tween()
+	angry_tween.set_loops(4)
+	angry_tween.tween_property(current_sprite, "modulate", Color(1.4, 0.3, 0.3), 0.2)
+	angry_tween.tween_property(current_sprite, "modulate", Color(1.0, 0.5, 0.5), 0.2)
+
+	# More aggressive shake with rotation
 	var original_pos = position
-	var tween = create_tween()
-	tween.set_loops(6)
-	tween.tween_property(self, "position", original_pos + Vector2(5, 0), 0.1)
-	tween.tween_property(self, "position", original_pos + Vector2(-5, 0), 0.1)
-	
-	await get_tree().create_timer(1.8).timeout
+	var shake_tween = create_tween()
+	shake_tween.set_loops(8)
+	shake_tween.parallel().tween_property(self, "position", original_pos + Vector2(rng.randf_range(-8, 8), rng.randf_range(-3, 3)), 0.08)
+	shake_tween.parallel().tween_property(current_sprite, "rotation", deg_to_rad(rng.randf_range(-15, 15)), 0.08)
+
+	await get_tree().create_timer(2.0).timeout
+
+	# Reset properties
 	position = original_pos
 	current_sprite.modulate = Color.WHITE
+	current_sprite.rotation = 0
 	_resume_walking()
 
 func _resume_walking():
@@ -147,3 +187,20 @@ func _stop_for_cards():
 func continue_after_cards():
 	# Called by GameManager after card shuffle is complete
 	_resume_walking()
+
+func _create_shadow():
+	# Create shadow sprite
+	shadow = Sprite2D.new()
+	shadow.name = "Shadow"
+	add_child(shadow)
+	move_child(shadow, 0)  # Put shadow behind character
+
+	# Get current frame for shadow texture
+	if current_sprite and current_sprite.sprite_frames:
+		shadow.texture = current_sprite.sprite_frames.get_frame_texture("walk", 0)
+
+	# Setup shadow properties
+	shadow.modulate = Color(0, 0, 0, 0.35)  # Semi-transparent black
+	shadow.scale = Vector2(base_scale * 1.0, base_scale * 0.3)  # Flattened shadow
+	shadow.position = Vector2(0, 6)  # Below character
+	shadow.skew = 0.05  # Slight perspective skew

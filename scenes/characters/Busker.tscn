@@ -76,6 +76,6 @@ animations = [{
 script = ExtResource("2_script")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.15, 0.15)
+scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_busker")
 animation = &"perform"

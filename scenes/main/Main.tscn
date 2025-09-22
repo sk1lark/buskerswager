@@ -1,17 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://be8ehtefkpryg"]
+[gd_scene load_steps=14 format=3 uid="uid://be8ehtefkpryg"]
 
 [ext_resource type="PackedScene" uid="uid://bw8y2s3txvtgp" path="res://scenes/main/Lane.tscn" id="1_lane"]
 [ext_resource type="PackedScene" uid="uid://dx53ovx1em4jq" path="res://scenes/ui/Dice.tscn" id="2_dice"]
 [ext_resource type="PackedScene" uid="uid://boeobjut8mkkp" path="res://scenes/characters/Busker.tscn" id="3_busker"]
 [ext_resource type="Script" uid="uid://cyy5qwnld271p" path="res://scripts/managers/GameManager.gd" id="4_gamemanager"]
 [ext_resource type="FontFile" uid="uid://d0mxjeht65xk1" path="res://assets/fonts/Jersey20-Regular.ttf" id="5_1rhdn"]
-[ext_resource type="Shader" uid="uid://brgb71bcwp78m" path="res://assets/shaders/crt_shader.gdshader" id="5_crt_shader"]
 [ext_resource type="PackedScene" uid="uid://b8k7m2oax5q1w" path="res://scenes/ui/CardShuffle.tscn" id="6_cardshuffle"]
 [ext_resource type="Script" uid="uid://uhoxvsbaku2u" path="res://scripts/managers/AudioManager.gd" id="7_audiomanager"]
 [ext_resource type="Theme" uid="uid://caetchwhyjrs4" path="res://scripts/gameplay/themes/default.tres" id="8_ostsq"]
+[ext_resource type="Script" path="res://scripts/main/MainScene.gd" id="9_mainscene"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
-shader = ExtResource("5_crt_shader")
 
 [sub_resource type="Theme" id="Theme_sjxhf"]
 default_font = ExtResource("5_1rhdn")
@@ -20,19 +18,11 @@ default_font_size = 30
 [sub_resource type="LabelSettings" id="LabelSettings_3km4f"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("9_mainscene")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(512, 384)
 
-[node name="CRTFilter" type="ColorRect" parent="Camera2D"]
-material = SubResource("ShaderMaterial_crt")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -512.0
-offset_top = -384.0
-offset_right = 512.0
-offset_bottom = 384.0
 
 [node name="LaneInstance" parent="." instance=ExtResource("1_lane")]
 position = Vector2(512, 384)
@@ -47,8 +37,8 @@ wait_time = 10.0
 one_shot = true
 
 [node name="BuskerInstance" parent="." instance=ExtResource("3_busker")]
-position = Vector2(691, 683.00006)
-scale = Vector2(21, 21)
+position = Vector2(955, 686)
+scale = Vector2(12, 12)
 
 [node name="HUDPanel" type="CanvasLayer" parent="."]
 
