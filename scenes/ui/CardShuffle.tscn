@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8k7m2oax5q1w"]
+
+[ext_resource type="Script" uid="uid://b6r6jp3i3nq6o" path="res://scripts/gameplay/CardShuffle.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://caetchwhyjrs4" path="res://scripts/gameplay/themes/default.tres" id="2_5rtgw"]
+
+[node name="CardShuffle" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="CardContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 300.0
+grow_horizontal = 0
+
+[node name="Card1" type="TextureRect" parent="CardContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Card2" type="TextureRect" parent="CardContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Card3" type="TextureRect" parent="CardContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DrawButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_top = 320.0
+offset_right = -20.0
+offset_bottom = 350.0
+grow_horizontal = 0
+theme = ExtResource("2_5rtgw")
+text = "Draw Cards"
+
+[node name="SkipButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -119.0
+offset_top = 370.0
+offset_right = -19.0
+offset_bottom = 409.0
+grow_horizontal = 0
+theme = ExtResource("2_5rtgw")
+text = "Skip"

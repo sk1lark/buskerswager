@@ -1,0 +1,109 @@
+[gd_scene load_steps=9 format=3 uid="uid://dfvh7tbypmtde"]
+
+[ext_resource type="FontFile" uid="uid://cu3geg22x7rh2" path="res://assets/fonts/BlueScreenPersonalUseRegular-0W1M9.ttf" id="1_title_font"]
+[ext_resource type="Script" uid="uid://dfttk0wp23tql" path="res://scripts/ui/SplashScreen.gd" id="2_script"]
+[ext_resource type="FontFile" uid="uid://bgr7b8tjgdv0x" path="res://assets/fonts/XeDogmaRegular-JZwB.ttf" id="3_jsqgk"]
+[ext_resource type="Texture2D" path="res://assets/sprites/busker's wager.jpg" id="4_background"]
+[ext_resource type="AudioStream" uid="uid://b8g7rxvn0nvxr" path="res://assets/audio/music/splash/splash.ogg" id="5_splash_music"]
+[ext_resource type="Shader" uid="uid://brgb71bcwp78m" path="res://assets/shaders/crt_shader.gdshader" id="6_crt_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crt_splash"]
+shader = ExtResource("6_crt_shader")
+
+[sub_resource type="Theme" id="Theme_splash"]
+default_font = ExtResource("1_title_font")
+default_font_size = 24
+
+[node name="SplashScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_splash")
+theme_override_font_sizes/font_size = 70
+text = "THE BUSKER'S WAGER"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="VBoxContainer"]
+modulate = Color(0.8, 0.8, 0.9, 1)
+layout_mode = 2
+theme = SubResource("Theme_splash")
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_jsqgk")
+theme_override_font_sizes/font_size = 25
+text = "ROLL THE DICE & PLAY YOUR TUNE. WHAT WILL THE TOWNSFOLK THINK?"
+horizontal_alignment = 1
+
+[node name="VSeparator" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MenuContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PlayButton" type="Button" parent="VBoxContainer/MenuContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme = SubResource("Theme_splash")
+theme_override_font_sizes/font_size = 28
+text = "PLAY"
+
+[node name="VSeparator2" type="Control" parent="VBoxContainer/MenuContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="VBoxContainer/MenuContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme = SubResource("Theme_splash")
+theme_override_font_sizes/font_size = 28
+text = "QUIT"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_splash_music")
+volume_db = -5.0
+autoplay = false
+
+[node name="CRTOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+material = SubResource("ShaderMaterial_crt_splash")
+color = Color(1, 1, 1, 0)
+mouse_filter = 2

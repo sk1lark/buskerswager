@@ -1,0 +1,81 @@
+[gd_scene load_steps=12 format=3 uid="uid://boeobjut8mkkp"]
+
+[ext_resource type="Texture2D" uid="uid://qhq7trx4dbb" path="res://assets/sprites/busker/buskeridle.png" id="2_fpm1a"]
+[ext_resource type="Script" uid="uid://da50m5ec2cjc2" path="res://scripts/characters/Busker.gd" id="2_script"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fegj"]
+atlas = ExtResource("2_fpm1a")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fck5a"]
+atlas = ExtResource("2_fpm1a")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lyl62"]
+atlas = ExtResource("2_fpm1a")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohup0"]
+atlas = ExtResource("2_fpm1a")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyvdq"]
+atlas = ExtResource("2_fpm1a")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxtas"]
+atlas = ExtResource("2_fpm1a")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxfn3"]
+atlas = ExtResource("2_fpm1a")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gj8ej"]
+atlas = ExtResource("2_fpm1a")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_busker"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3fegj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fck5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lyl62")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohup0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iyvdq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxtas")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxfn3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gj8ej")
+}],
+"loop": true,
+"name": &"perform",
+"speed": 4.0
+}]
+
+[node name="Busker" type="Node2D"]
+script = ExtResource("2_script")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+sprite_frames = SubResource("SpriteFrames_busker")
+animation = &"perform"
