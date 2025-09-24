@@ -1,6 +1,7 @@
 # busker's wager 🎲🎵
 
-*made for hackclub shiba <3*
+*made for hackclub shiba <3*, and
+[![Athena Award Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Faward.athena.hackclub.com%2Fapi%2Fbadge)](https://award.athena.hackclub.com?utm_source=readme)
 
 a cozy dice-rolling busker game with lute music and card mechanics! roll the dice, play your lute, and earn tips from passersby in this gothicvania-style pixel art game.
 
@@ -11,7 +12,6 @@ you're a street busker trying to make some coin! roll dice to determine your per
 - **dice-based mood system** - roll to set the crowd's vibe
 - **lute music** - 3 different tracks that play randomly during performances  
 - **card shuffle mechanics** - draw cards to boost your luck and tip multipliers
-- **gothicvania pixel art** - beautiful retro aesthetic with crt shader effects
 - **pedestrian ai** - npcs walk by and stop to watch your performances
 
 ## how to play
