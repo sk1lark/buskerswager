@@ -23,7 +23,7 @@ func _ready():
     add_child(music_player)
     
     sfx_player = AudioStreamPlayer.new()
-    sfx_player.volume_db = -6.0
+    sfx_player.volume_db = 5.0  # Much louder for dice and card sounds
     add_child(sfx_player)
     
     ambient_player = AudioStreamPlayer.new()
@@ -52,10 +52,28 @@ func stop_music():
     music_player.stop()
 
 func play_sfx(path: String):
+    print("AudioManager: Playing SFX: ", path)
     var stream = load(path)
     if stream:
         sfx_player.stream = stream
         sfx_player.play()
+        print("AudioManager: SFX playing successfully")
+    else:
+        print("AudioManager: ERROR - Failed to load SFX: ", path)
+
+# Play the yippee sound when earning money!
+func play_yippee_sound():
+    play_sfx("res://assets/audio/sfx/yippee.ogg")
+
+# Play dice roll sound
+func play_dice_sound():
+    print("AudioManager: play_dice_sound() called")
+    play_sfx("res://assets/audio/sfx/dice.ogg")
+
+# Play card flip/deal sound
+func play_cards_sound():
+    print("AudioManager: play_cards_sound() called")
+    play_sfx("res://assets/audio/sfx/cards.ogg")
 
 func play_ambient_loop(path: String):
     var stream = load(path)

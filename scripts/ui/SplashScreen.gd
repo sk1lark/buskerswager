@@ -23,7 +23,9 @@ func _ready():
 	quit_button.button_down.connect(_on_button_press.bind(quit_button))
 	quit_button.button_up.connect(_on_button_release.bind(quit_button))
 
-	# Start background music
+	# Start background music and loop it continuously
+	if audio_player.stream:
+		audio_player.stream.loop = true
 	audio_player.play()
 
 	# Start entrance animation
@@ -75,6 +77,10 @@ func _on_button_release(button: Button):
 
 func _on_play_pressed():
 	print("splashscreen: play button pressed!")
+
+	# Stop the looping music before leaving
+	audio_player.stop()
+
 	# Animate out before changing scene
 	var tween = create_tween()
 	tween.parallel().tween_property(self, "modulate:a", 0.0, 0.5)
@@ -83,8 +89,11 @@ func _on_play_pressed():
 
 	# Change to main game scene
 	print("splashscreen: changing to main scene...")
-	get_tree().change_scene_to_file("res://scenes/main/Main.tscn")
-	print("splashscreen: scene change called!")
+	var result = get_tree().change_scene_to_file("res://scenes/main/Main.tscn")
+	if result != OK:
+		print("ERROR: Failed to load main scene, error code: ", result)
+	else:
+		print("splashscreen: scene change initiated successfully!")
 
 func _on_quit_pressed():
 	# Animate out before quitting

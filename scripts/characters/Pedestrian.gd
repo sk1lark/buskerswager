@@ -20,7 +20,7 @@ var speed = 80.0
 var is_performing_event = false
 var street_y = 130  # Ground level position matching where busker stands
 var has_stopped_for_cards = false
-var stop_chance = 0.3  # 30% chance to stop for cards
+var stop_chance = 0.6  # 60% chance to stop for cards (increased for testing)
 var base_scale = 1.0  # Store original scale for depth effects
 
 func _ready():
@@ -31,12 +31,20 @@ func _ready():
 	_setup_movement()
 	
 	# Connect to GameManager for card shuffles
+	print("pedestrian: attempting to connect to GameManager...")
 	var game_manager = get_node("/root/Main/GameManager")
 	if game_manager:
 		card_shuffle_requested.connect(game_manager._on_pedestrian_card_request)
-		print("Pedestrian connected to GameManager for cards")
+		print("pedestrian: successfully connected to GameManager for cards")
 	else:
-		print("ERROR: Could not find GameManager for card shuffle!")
+		print("pedestrian: ERROR - Could not find GameManager at /root/Main/GameManager")
+		# Try alternate path
+		game_manager = get_node("../../GameManager")
+		if game_manager:
+			card_shuffle_requested.connect(game_manager._on_pedestrian_card_request)
+			print("pedestrian: found GameManager at alternate path")
+		else:
+			print("pedestrian: ERROR - GameManager not found at alternate path either")
 
 func _setup_character():
 	# Hide all character sprites first
@@ -179,10 +187,11 @@ func _stop_for_cards():
 	speed = 0
 	current_sprite.animation = "idle"
 	current_sprite.play()
-	
-	print("Pedestrian stopping for cards!")
+
+	print("pedestrian: stopping for cards and emitting signal!")
 	# Signal to GameManager that this pedestrian wants to see cards
 	card_shuffle_requested.emit(self)
+	print("pedestrian: card_shuffle_requested signal emitted")
 
 func continue_after_cards():
 	# Called by GameManager after card shuffle is complete

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/hayde/OneDrive/Documents/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

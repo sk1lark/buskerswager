@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvg22hoggmfq1"
-path="res://.godot/imported/buskerwalk.png-5823b26a79509517c5ef6352a1f53c26.ctex"
+uid="uid://b562qmxk1lik4"
+path="res://.godot/imported/cutscene.png-08973392dab8c421e548cba19310ce49.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/busker/buskerwalk.png"
-dest_files=["res://.godot/imported/buskerwalk.png-5823b26a79509517c5ef6352a1f53c26.ctex"]
+source_file="res://assets/cutscene.png"
+dest_files=["res://.godot/imported/cutscene.png-08973392dab8c421e548cba19310ce49.ctex"]
 
 [params]
 

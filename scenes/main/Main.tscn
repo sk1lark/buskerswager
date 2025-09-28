@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://be8ehtefkpryg"]
+[gd_scene load_steps=11 format=3 uid="uid://be8ehtefkpryg"]
 
 [ext_resource type="PackedScene" uid="uid://bw8y2s3txvtgp" path="res://scenes/main/Lane.tscn" id="1_lane"]
 [ext_resource type="PackedScene" uid="uid://dx53ovx1em4jq" path="res://scenes/ui/Dice.tscn" id="2_dice"]
@@ -9,12 +9,12 @@
 [ext_resource type="Script" uid="uid://uhoxvsbaku2u" path="res://scripts/managers/AudioManager.gd" id="7_audiomanager"]
 [ext_resource type="Theme" uid="uid://caetchwhyjrs4" path="res://scripts/gameplay/themes/default.tres" id="8_ostsq"]
 [ext_resource type="Script" uid="uid://k1r6djctruxq" path="res://scripts/main/MainScene.gd" id="9_mainscene"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/dice.ogg" id="10_dice_sound"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/cards.ogg" id="11_cards_sound"]
 
 [sub_resource type="Theme" id="Theme_sjxhf"]
 default_font = ExtResource("5_1rhdn")
 default_font_size = 30
-
-[sub_resource type="LabelSettings" id="LabelSettings_3km4f"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("9_mainscene")
@@ -96,7 +96,7 @@ text = "Event Odds: 30%"
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -200.0
+offset_left = -400.0
 offset_top = 20.0
 offset_right = -20.0
 offset_bottom = 40.0
@@ -110,6 +110,14 @@ script = ExtResource("4_gamemanager")
 [node name="AudioManager" type="Node" parent="."]
 script = ExtResource("7_audiomanager")
 
+[node name="DiceSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_dice_sound")
+volume_db = -5.0
+
+[node name="CardsSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_cards_sound")
+volume_db = -3.0
+
 [node name="NotificationLabel" type="Label" parent="."]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 8
@@ -117,20 +125,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 312.0
-offset_top = 284.0
-offset_right = 712.0
-offset_bottom = 334.0
+offset_left = 60.0
+offset_top = 114.0
+offset_right = 960.0
+offset_bottom = 414.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("8_ostsq")
 theme_override_colors/font_color = Color(1, 1, 0.5, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_fonts/font = ExtResource("5_1rhdn")
-theme_override_font_sizes/font_size = 48
-label_settings = SubResource("LabelSettings_3km4f")
+theme_override_font_sizes/font_size = 72
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="CardShuffle" parent="." instance=ExtResource("6_cardshuffle")]
 anchors_preset = 0
@@ -142,3 +152,48 @@ offset_right = 1010.0
 offset_bottom = 300.0
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="FlashOverlay" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="FlashRect" type="ColorRect" parent="FlashOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="CutsceneOverlay" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="CutsceneBackground" type="ColorRect" parent="CutsceneOverlay"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0.2, 1)
+
+[node name="CutsceneLabel" type="Label" parent="CutsceneOverlay"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -100.0
+offset_right = 400.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_1rhdn")
+theme_override_font_sizes/font_size = 48
+text = "Cutscene text goes here"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

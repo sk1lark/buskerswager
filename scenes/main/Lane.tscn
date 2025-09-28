@@ -153,17 +153,10 @@ sources/2 = SubResource("TileSetAtlasSource_xrhgf")
 [node name="Node2D" type="Node2D"]
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(0, 0)
 texture = ExtResource("1_4xgc8")
-centered = true
 
 [node name="Middleground" type="Sprite2D" parent="."]
-position = Vector2(0, 0)
 texture = ExtResource("2_2jr3j")
-
-[node name="GroundTiles" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAABAAYAAgAOAAoAAAAMAAEAAgAKAAkAAAAMAAAAAgAKAAkAAAALAAAAAgAKAAkAAAAKAP//AgAKAAkAAAAJAP//AgAKAAkAAAAIAP7/AgAKAAkAAAAHAP7/AgAKAAkAAAAHAP3/AgAKAAkAAAAGAP3/AgAKAAkAAAAFAP3/AgAKAAkAAAAFAPz/AgAKAAkAAAAEAPz/AgAKAAkAAAD0/wgAAgAHAAoAAAD1/wgAAgAIAAoAAAD2/wgAAgAHAAoAAAD3/wgAAgAIAAoAAAD4/wgAAgAHAAoAAAD5/wgAAgAIAAoAAAD6/wgAAgAHAAoAAAD7/wgAAgAIAAoAAAD8/wgAAgAHAAoAAAD9/wgAAgAIAAoAAAD+/wgAAgAHAAoAAAD//wgAAgAIAAoAAAAAAAgAAgAHAAoAAAABAAgAAgAIAAoAAAACAAgAAgAHAAoAAAADAAgAAgAIAAoAAAAEAAgAAgAHAAoAAAAFAAgAAgAIAAoAAAAGAAgAAgAHAAoAAAAHAAgAAgAIAAoAAAAGAAcAAgAHAAoAAAAHAAcAAgAIAAoAAAAIAAcAAgAHAAoAAAAJAAcAAgAIAAoAAAAKAAcAAgAHAAoAAAALAAcAAgAIAAoAAAAKAAgAAgAHAAoAAAALAAgAAgAIAAoAAAAIAAgAAgAHAAoAAAAJAAgAAgAIAAoAAAA=")
-tile_set = SubResource("TileSet_ewmiw")
 
 [node name="PedestrianSpawwner" type="Node2D" parent="."]
 
@@ -173,38 +166,42 @@ autostart = true
 
 [node name="PropsLayer" type="Node2D" parent="."]
 
+[node name="GroundTiles" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAABAAYAAgAOAAoAAAALAAAAAgAKAAkAAAAKAP//AgAKAAkAAAAJAP//AgAKAAkAAAAIAP7/AgAKAAkAAAAHAP7/AgAKAAkAAAAHAP3/AgAKAAkAAAAGAP3/AgAKAAkAAAAFAP3/AgAKAAkAAAAFAPz/AgAKAAkAAAAEAPz/AgAKAAkAAAD0/wgAAgAHAAoAAAD1/wgAAgAIAAoAAAD2/wgAAgAHAAoAAAD3/wgAAgAIAAoAAAD4/wgAAgAHAAoAAAD5/wgAAgAIAAoAAAD6/wgAAgAHAAoAAAD7/wgAAgAIAAoAAAD8/wgAAgAHAAoAAAD9/wgAAgAIAAoAAAD+/wgAAgAHAAoAAAD//wgAAgAIAAoAAAAAAAgAAgAHAAoAAAABAAgAAgAIAAoAAAACAAgAAgAHAAoAAAADAAgAAgAIAAoAAAAEAAgAAgAHAAoAAAAFAAgAAgAIAAoAAAAGAAgAAgAHAAoAAAAHAAgAAgAIAAoAAAAGAAcAAgAIAAoAAAAHAAcAAgAIAAoAAAAIAAcAAgAIAAoAAAAJAAcAAgAIAAoAAAAKAAcAAgAIAAoAAAALAAcAAgAIAAoAAAAKAAgAAgAHAAoAAAALAAgAAgAIAAoAAAAIAAgAAgAHAAoAAAAJAAgAAgAIAAoAAAD0/wcAAgAIAAoAAAD1/wcAAgAIAAoAAAD2/wcAAgAIAAoAAAD3/wcAAgAIAAoAAAD4/wcAAgAIAAoAAAD5/wcAAgAIAAoAAAD6/wcAAgAIAAoAAAD7/wcAAgAIAAoAAAD8/wcAAgAIAAoAAAD9/wcAAgAIAAoAAAD+/wcAAgAIAAoAAAD//wcAAgAIAAoAAAAAAAcAAgAIAAoAAAABAAcAAgAIAAoAAAACAAcAAgAIAAoAAAADAAcAAgAIAAoAAAAEAAcAAgAIAAoAAAAFAAcAAgAIAAoAAAA=")
+tile_set = SubResource("TileSet_ewmiw")
+
 [node name="house-a" type="Sprite2D" parent="."]
-position = Vector2(-107.00001, 48)
+position = Vector2(-107, 28.000004)
 scale = Vector2(1.1019347, 0.98121583)
 texture = ExtResource("4_2grk7")
 
 [node name="house-b" type="Sprite2D" parent="."]
-position = Vector2(927, -1646)
+position = Vector2(906, -1664)
 scale = Vector2(1.0174899, 0.84164244)
 texture = ExtResource("5_qn34v")
 offset = Vector2(-803.7273, 1998)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-0.9999991, 118)
-scale = Vector2(0.5958904, 0.5882353)
-texture = ExtResource("6_t5plw")
-
 [node name="StreetLamp1" type="Sprite2D" parent="."]
-position = Vector2(32.124996, 96.75001)
+position = Vector2(5.124996, 81.75)
 scale = Vector2(1.0214287, 0.7731482)
 texture = ExtResource("7_wql4p")
 
 [node name="PointLight2D" type="PointLight2D" parent="StreetLamp1"]
-position = Vector2(-1.2727203, -21.295792)
-scale = Vector2(1.0419034, 2.329226)
+position = Vector2(-3.059435, -12.610777)
+scale = Vector2(1.1719978, 2.5296493)
 color = Color(1, 0.9098039, 0.6509804, 1)
 energy = 2.5
 shadow_enabled = true
 texture = ExtResource("8_p5jxg")
 
+[node name="crates" type="Sprite2D" parent="."]
+position = Vector2(-4, 102)
+scale = Vector2(0.5958904, 0.5882353)
+texture = ExtResource("6_t5plw")
+
 [node name="StreetLamp2" type="Sprite2D" parent="."]
-position = Vector2(-163.37502, 91.25001)
-scale = Vector2(1.1071429, 0.8564813)
+position = Vector2(-173.87502, 81.75)
+scale = Vector2(0.8500006, 0.7175925)
 texture = ExtResource("7_wql4p")
 
 [node name="PointLight2D" type="PointLight2D" parent="StreetLamp2"]
