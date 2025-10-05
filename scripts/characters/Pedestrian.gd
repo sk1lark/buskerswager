@@ -1,21 +1,27 @@
 extends Node2D
 class_name Pedestrian
 
-# Character node names as they appear in the scene
+# Character node names as they appear in the scene (1-9.png)
 const CHARACTER_NODES = [
-	"chef",
-	"knight",
-	"wizard"
+	"char1",
+	"char2",
+	"char3",
+	"char4",
+	"char5",
+	"char6",
+	"char7",
+	"char8",
+	"char9"
 ]
 
 @onready var current_sprite: Sprite2D
 @onready var shadow: Sprite2D
 var rng = RandomNumberGenerator.new()
-var character_type: int
+var character_type: int = -1  # -1 means not yet assigned
 var direction = Vector2.LEFT
 var speed = 80.0
 var is_performing_event = false
-var street_y = 155  # Ground level position (lowered to prevent spawning too high)
+var street_y = 95  # Ground level position - raised 5 pixels higher (was 100)
 var base_scale = 1.0  # Store original scale for depth effects
 var has_stopped = false
 var stop_chance = 0.15  # 15% chance to stop
@@ -27,7 +33,10 @@ var wiggle_amount: float = 5.0  # How much rotation in degrees
 
 func _ready():
 	rng.randomize()
-	character_type = rng.randi_range(0, CHARACTER_NODES.size() - 1)
+
+	# Only randomize if not already set by spawner
+	if character_type == -1:
+		character_type = rng.randi_range(0, CHARACTER_NODES.size() - 1)
 
 	_setup_character()
 	_setup_movement()

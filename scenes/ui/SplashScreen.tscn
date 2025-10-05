@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://dfvh7tbypmtde"]
+[gd_scene load_steps=9 format=3 uid="uid://dfvh7tbypmtde"]
 
 [ext_resource type="FontFile" uid="uid://cu3geg22x7rh2" path="res://assets/fonts/BlueScreenPersonalUseRegular-0W1M9.ttf" id="1_title_font"]
 [ext_resource type="Script" uid="uid://dfttk0wp23tql" path="res://scripts/ui/SplashScreen.gd" id="2_script"]
+[ext_resource type="FontFile" uid="uid://cpknmx7l3ynrn" path="res://assets/fonts/LoveheartsXyz-y28V.ttf" id="4_1rht0"]
 [ext_resource type="FontFile" uid="uid://d0mxjeht65xk1" path="res://assets/fonts/Jersey20-Regular.ttf" id="4_18ajr"]
 [ext_resource type="FontFile" uid="uid://c6qy3kg7bm2kh" path="res://assets/fonts/AncientModernTales-a7Po.ttf" id="4_42ppo"]
 [ext_resource type="AudioStream" uid="uid://rdpkqng8xqk" path="res://assets/audio/music/splash/splash.ogg" id="5_splash_music"]
@@ -13,92 +14,6 @@ load_path = "res://.godot/imported/busker's wager.jpg-60a24f643e851db11662567088
 default_font = ExtResource("1_title_font")
 default_font_size = 24
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
-bg_color = Color(0.2, 0.6, 0.8, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 6
-border_color = Color(0.1, 0.3, 0.5, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_size = 6
-shadow_offset = Vector2(0, 4)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed"]
-bg_color = Color(0.15, 0.5, 0.7, 1)
-border_width_left = 3
-border_width_top = 6
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.05, 0.2, 0.4, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 3
-shadow_offset = Vector2(0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
-bg_color = Color(0.3, 0.7, 0.9, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 6
-border_color = Color(0.15, 0.4, 0.6, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_size = 8
-shadow_offset = Vector2(0, 5)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal2"]
-bg_color = Color(0.7, 0.3, 0.3, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 6
-border_color = Color(0.5, 0.15, 0.15, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_size = 6
-shadow_offset = Vector2(0, 4)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed2"]
-bg_color = Color(0.6, 0.25, 0.25, 1)
-border_width_left = 3
-border_width_top = 6
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.4, 0.1, 0.1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 3
-shadow_offset = Vector2(0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover2"]
-bg_color = Color(0.8, 0.4, 0.4, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 6
-border_color = Color(0.6, 0.2, 0.2, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_size = 8
-shadow_offset = Vector2(0, 5)
-
 [node name="SplashScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -109,6 +24,7 @@ grow_vertical = 2
 script = ExtResource("2_script")
 
 [node name="Background" type="TextureRect" parent="."]
+modulate = Color(0.6, 0.6, 0.6, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -155,52 +71,73 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 4
 theme_override_constants/shadow_offset_y = 4
 theme_override_constants/outline_size = 8
-theme_override_fonts/font = ExtResource("4_18ajr")
+theme_override_fonts/font = ExtResource("4_1rht0")
 theme_override_font_sizes/font_size = 40
-text = "~ a cozy typing + shooter hybrid game <3"
+text = "~ a cozy typing + shooter hybrid game! ~"
 horizontal_alignment = 1
 
 [node name="VSeparator" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
 [node name="MenuContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
+theme_override_constants/separation = 15
 
-[node name="PlayButton" type="Button" parent="VBoxContainer/MenuContainer"]
-custom_minimum_size = Vector2(200, 60)
+[node name="PlayContainer" type="HBoxContainer" parent="VBoxContainer/MenuContainer"]
 layout_mode = 2
-theme = SubResource("Theme_splash")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0.8, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
-text = "PLAY"
+theme_override_constants/separation = 15
+alignment = 1
 
-[node name="VSeparator2" type="Control" parent="VBoxContainer/MenuContainer"]
-custom_minimum_size = Vector2(0, 20)
+[node name="PlayArrow" type="Label" parent="VBoxContainer/MenuContainer/PlayContainer"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.5, 1)
+theme_override_colors/font_outline_color = Color(1, 0.85, 0.5, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_18ajr")
+theme_override_font_sizes/font_size = 56
+text = ">"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer/MenuContainer"]
-custom_minimum_size = Vector2(200, 60)
+[node name="PlayLabel" type="RichTextLabel" parent="VBoxContainer/MenuContainer/PlayContainer"]
+custom_minimum_size = Vector2(400, 70)
 layout_mode = 2
-theme = SubResource("Theme_splash")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0.8, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_normal2")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_hover2")
-text = "QUIT"
+theme_override_colors/default_color = Color(1, 0.95, 0.85, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/normal_font = ExtResource("4_18ajr")
+theme_override_font_sizes/normal_font_size = 56
+bbcode_enabled = true
+text = "start adventure"
+fit_content = true
+scroll_active = false
+
+[node name="QuitContainer" type="HBoxContainer" parent="VBoxContainer/MenuContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="QuitArrow" type="Label" parent="VBoxContainer/MenuContainer/QuitContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.6, 0.6, 1)
+theme_override_colors/font_outline_color = Color(1, 0.6, 0.6, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_18ajr")
+theme_override_font_sizes/font_size = 56
+text = ">"
+
+[node name="QuitLabel" type="Label" parent="VBoxContainer/MenuContainer/QuitContainer"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_colors/font_color = Color(1, 0.8, 0.8, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("4_18ajr")
+theme_override_font_sizes/font_size = 56
+text = "quit"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 

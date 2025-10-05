@@ -16,4 +16,4 @@ script = ExtResource("3_spawner")
 
 [node name="SpawnTimer" type="Timer" parent="PedestrianSpawner"]
 wait_time = 2.0
-autostart = true
+autostart = false

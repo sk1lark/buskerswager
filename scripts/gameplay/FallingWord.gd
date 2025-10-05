@@ -3,12 +3,17 @@ class_name FallingWord
 
 var word_text: String = ""
 var typed_progress: int = 0  # How many letters have been typed correctly
-var fall_speed: float = 50.0
+var fall_speed: float = 30.0  # Reduced from 50.0 for better playability
+var fall_acceleration: float = 1.0  # Multiplier for falling speed (for random events)
 var label: RichTextLabel
 var is_setup_complete: bool = false
+var is_locked: bool = false
+var is_targeted: bool = false
 
 signal word_completed(word: FallingWord)
 signal word_hit_ground(word: FallingWord)
+signal wrong_letter_typed(word: FallingWord)
+signal word_collision(colliding_word: FallingWord)
 
 func _init():
 	# Create the label immediately in _init so it's ready
@@ -16,10 +21,17 @@ func _init():
 	label.bbcode_enabled = true
 	label.fit_content = true
 	label.scroll_active = false
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF  # No line wrapping!
+
+	# Load custom font
+	var custom_font = load("res://assets/fonts/LoveheartsXyz-y28V.ttf")
+	if custom_font:
+		label.add_theme_font_override("normal_font", custom_font)
+
 	label.add_theme_font_size_override("normal_font_size", 32)
 	label.add_theme_color_override("default_color", Color.WHITE)
 	label.position = Vector2(-100, -20)
-	label.size = Vector2(200, 40)
+	label.size = Vector2(300, 50)  # Wider to accommodate longer words without wrapping
 
 func _ready():
 	# Add label to scene tree
@@ -42,8 +54,8 @@ func setup(text: String, speed: float):
 	_update_display()
 
 func _process(delta):
-	# Fall down
-	position.y += fall_speed * delta
+	# Fall down with acceleration multiplier
+	position.y += fall_speed * fall_acceleration * delta
 
 	# Check if hit ground (y > 700 approximately)
 	if position.y > 700:
@@ -62,7 +74,16 @@ func type_letter(letter: String) -> bool:
 				word_completed.emit(self)
 				return true
 			return true
+		else:
+			# Wrong letter typed!
+			wrong_letter_typed.emit(self)
+			return false
 	return false
+
+func lock_for_typing():
+	is_locked = true
+	is_targeted = true
+	_update_display()
 
 func _update_display():
 	if not label or word_text == "":

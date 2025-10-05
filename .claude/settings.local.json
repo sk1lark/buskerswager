@@ -3,7 +3,8 @@
     "allow": [
       "Read(//c/Users/hayde/OneDrive/Documents/**)",
       "Bash(godot:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
