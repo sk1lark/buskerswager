@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rp8uskb33xww"
-path="res://.godot/imported/oldman-idle.png-a0a6d51c6b8b5048c224bce94862573f.ctex"
+uid="uid://bx5q2uq80yem5"
+path="res://.godot/imported/musicnote.png-35c84c490cae70b9a7ec3e9fa09a1cba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/characters/oldman-idle.png"
-dest_files=["res://.godot/imported/oldman-idle.png-a0a6d51c6b8b5048c224bce94862573f.ctex"]
+source_file="res://assets/sprites/effects/musicnote.png"
+dest_files=["res://.godot/imported/musicnote.png-35c84c490cae70b9a7ec3e9fa09a1cba.ctex"]
 
 [params]
 

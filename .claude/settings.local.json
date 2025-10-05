@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Read(//c/Users/hayde/OneDrive/Documents/**)"
+      "Read(//c/Users/hayde/OneDrive/Documents/**)",
+      "Bash(godot:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

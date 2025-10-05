@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bun8fny7a81ha"
-path="res://.godot/imported/oldman-walk.png-ba5d30d964bf44dc1a90104c90776625.ctex"
+uid="uid://c1sucvgpj6uya"
+path="res://.godot/imported/wizard.png-1c45f6913f6b85dc6e37377381c4a756.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/characters/oldman-walk.png"
-dest_files=["res://.godot/imported/oldman-walk.png-ba5d30d964bf44dc1a90104c90776625.ctex"]
+source_file="res://assets/sprites/characters/wizard.png"
+dest_files=["res://.godot/imported/wizard.png-1c45f6913f6b85dc6e37377381c4a756.ctex"]
 
 [params]
 

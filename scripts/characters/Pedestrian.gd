@@ -1,63 +1,47 @@
 extends Node2D
 class_name Pedestrian
 
-signal card_shuffle_requested(pedestrian: Pedestrian)
-
 # Character node names as they appear in the scene
 const CHARACTER_NODES = [
-	"bearded",
-	"old man",
-	"woman",
-    "hat man"
+	"chef",
+	"knight",
+	"wizard"
 ]
 
-@onready var current_sprite: AnimatedSprite2D
+@onready var current_sprite: Sprite2D
 @onready var shadow: Sprite2D
 var rng = RandomNumberGenerator.new()
 var character_type: int
 var direction = Vector2.LEFT
 var speed = 80.0
 var is_performing_event = false
-var street_y = 130  # Ground level position matching where busker stands
-var has_stopped_for_cards = false
-var stop_chance = 0.6  # 60% chance to stop for cards (increased for testing)
+var street_y = 155  # Ground level position (lowered to prevent spawning too high)
 var base_scale = 1.0  # Store original scale for depth effects
+var has_stopped = false
+var stop_chance = 0.15  # 15% chance to stop
+
+# Wiggle animation variables
+var wiggle_time: float = 0.0
+var wiggle_speed: float = 8.0  # How fast the wiggle
+var wiggle_amount: float = 5.0  # How much rotation in degrees
 
 func _ready():
 	rng.randomize()
 	character_type = rng.randi_range(0, CHARACTER_NODES.size() - 1)
-	
+
 	_setup_character()
 	_setup_movement()
-	
-	# Connect to GameManager for card shuffles
-	print("pedestrian: attempting to connect to GameManager...")
-	var game_manager = get_node("/root/Main/GameManager")
-	if game_manager:
-		card_shuffle_requested.connect(game_manager._on_pedestrian_card_request)
-		print("pedestrian: successfully connected to GameManager for cards")
-	else:
-		print("pedestrian: ERROR - Could not find GameManager at /root/Main/GameManager")
-		# Try alternate path
-		game_manager = get_node("../../GameManager")
-		if game_manager:
-			card_shuffle_requested.connect(game_manager._on_pedestrian_card_request)
-			print("pedestrian: found GameManager at alternate path")
-		else:
-			print("pedestrian: ERROR - GameManager not found at alternate path either")
 
 func _setup_character():
 	# Hide all character sprites first
 	for node_name in CHARACTER_NODES:
-		var sprite_node = get_node(node_name)
+		var sprite_node = get_node(node_name) as Sprite2D
 		sprite_node.visible = false
 
 	# Show and set up the selected character
 	var selected_character = CHARACTER_NODES[character_type]
-	current_sprite = get_node(selected_character)
+	current_sprite = get_node(selected_character) as Sprite2D
 	current_sprite.visible = true
-	current_sprite.animation = "walk"
-	current_sprite.play()
 
 	# Create shadow for depth
 	_create_shadow()
@@ -67,22 +51,19 @@ func _setup_character():
 	current_sprite.scale = Vector2(base_scale, base_scale)
 
 func _setup_movement():
-	# Lane's local coordinate system - spawn off the sides of the lane area
-	var y_offset = rng.randi_range(-30, 30)
-	position.y = street_y + y_offset
+	# Keep pedestrians at consistent height (no random y_offset)
+	position.y = street_y
 
-	# Scale based on y position for depth effect (closer = bigger)
-	var depth_scale = 1.0 + (y_offset * 0.004)  # Subtle depth scaling
-	base_scale *= depth_scale
+	# No depth scaling - keep them all the same size
 	current_sprite.scale = Vector2(base_scale, base_scale)
 
 	if rng.randi() % 2 == 0:
 		direction = Vector2.RIGHT
-		position.x = -200  # Left side of lane area
+		position.x = -100  # Closer spawn so they stay on screen
 		current_sprite.flip_h = false
 	else:
 		direction = Vector2.LEFT
-		position.x = 200   # Right side of lane area
+		position.x = 100   # Closer spawn so they stay on screen
 		current_sprite.flip_h = true
 
 	# Vary walking speed slightly
@@ -91,23 +72,47 @@ func _setup_movement():
 func _process(delta):
 	if not is_performing_event:
 		position += direction * speed * delta
-		
-		# Check if pedestrian should stop for cards (only once, near center)
-		if not has_stopped_for_cards and abs(position.x) < 50:
+
+		# Wiggle animation - rotate back and forth like a sticker
+		wiggle_time += delta * wiggle_speed
+		var wiggle_rotation = sin(wiggle_time) * deg_to_rad(wiggle_amount)
+		current_sprite.rotation = wiggle_rotation
+
+		# Check if pedestrian should stop (only once, near center)
+		if not has_stopped and abs(position.x) < 50:
 			if rng.randf() < stop_chance:
-				_stop_for_cards()
-				return
-		
-		# Delete when off-screen in lane coordinate space
-		if position.x < -250 or position.x > 250:
+				stop_for_typing_challenge()
+
+		# Delete when further off-screen (increased range to keep visible longer)
+		if position.x < -150 or position.x > 150:
 			queue_free()
+
+func stop_for_typing_challenge():
+	# Check if a challenge is already active
+	var game_manager = get_node("/root/Main/GameManager")
+	if game_manager and game_manager.is_in_typing_challenge:
+		# Don't stop - another challenge is already active
+		return
+
+	has_stopped = true
+	is_performing_event = true
+	speed = 0
+	# Stop wiggling when stopped
+	current_sprite.rotation = 0
+
+	print("Pedestrian stopped for typing challenge!")
+
+	# Notify GameManager to start typing challenge
+	if game_manager:
+		print("Found GameManager, starting challenge...")
+		game_manager.start_typing_challenge(self)
+	else:
+		print("ERROR: Could not find GameManager!")
 
 func perform_event(event_type: String):
 	is_performing_event = true
 	speed = 0
-	current_sprite.animation = "idle"
-	current_sprite.play()
-	
+
 	match event_type:
 		"generous":
 			_perform_generous()
@@ -178,24 +183,38 @@ func _perform_heckle():
 func _resume_walking():
 	is_performing_event = false
 	speed = 80.0
-	current_sprite.animation = "walk"
-	current_sprite.play()
+	# Resume wiggling
+	wiggle_time = 0.0
 
-func _stop_for_cards():
-	has_stopped_for_cards = true
-	is_performing_event = true
-	speed = 0
-	current_sprite.animation = "idle"
-	current_sprite.play()
+func _give_money_and_pass():
+	# Random villager just tosses money and keeps walking!
+	var game_manager = get_node("/root/Main/GameManager")
+	if not game_manager:
+		return
 
-	print("pedestrian: stopping for cards and emitting signal!")
-	# Signal to GameManager that this pedestrian wants to see cards
-	card_shuffle_requested.emit(self)
-	print("pedestrian: card_shuffle_requested signal emitted")
+	var tip_amount = rng.randi_range(3, 8)
+	game_manager.tips_total += tip_amount
+	game_manager._update_ui()
 
-func continue_after_cards():
-	# Called by GameManager after card shuffle is complete
-	_resume_walking()
+	# Show floating text
+	var money_label = Label.new()
+	money_label.text = "+$%d" % tip_amount
+	money_label.add_theme_font_size_override("font_size", 28)
+	money_label.modulate = Color(0.2, 1.0, 0.2, 1.0)  # Bright green
+	money_label.position = position + Vector2(0, -40)
+	money_label.z_index = 200
+	get_parent().add_child(money_label)
+
+	# Animate money floating up
+	var money_tween = create_tween()
+	money_tween.set_parallel(true)
+	money_tween.tween_property(money_label, "position:y", money_label.position.y - 60, 1.5)
+	money_tween.tween_property(money_label, "modulate:a", 0.0, 1.5)
+
+	await money_tween.finished
+	money_label.queue_free()
+
+	print("Generous villager gave $%d!" % tip_amount)
 
 func _create_shadow():
 	# Create shadow sprite
@@ -204,9 +223,9 @@ func _create_shadow():
 	add_child(shadow)
 	move_child(shadow, 0)  # Put shadow behind character
 
-	# Get current frame for shadow texture
-	if current_sprite and current_sprite.sprite_frames:
-		shadow.texture = current_sprite.sprite_frames.get_frame_texture("walk", 0)
+	# Use the same texture as the character for the shadow
+	if current_sprite and current_sprite.texture:
+		shadow.texture = current_sprite.texture
 
 	# Setup shadow properties
 	shadow.modulate = Color(0, 0, 0, 0.35)  # Semi-transparent black

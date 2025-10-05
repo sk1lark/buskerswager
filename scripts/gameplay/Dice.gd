@@ -29,14 +29,9 @@ func roll():
 	is_rolling = true
 
 	# Play dice sound effect
-	print("Dice: Attempting to play dice sound...")
 	var audio_manager = get_node("../../AudioManager")
-	print("Dice: AudioManager found: ", audio_manager)
 	if audio_manager and audio_manager.has_method("play_dice_sound"):
-		print("Dice: Calling play_dice_sound()...")
 		audio_manager.play_dice_sound()
-	else:
-		print("Dice: ERROR - AudioManager not found or missing method!")
 
 	# Anticipation - slight pause and scale up
 	var anticipation_tween = create_tween()
@@ -93,7 +88,6 @@ func start_glow():
 		return
 
 	is_glowing = true
-	print("dice: starting glow effect")
 
 	# Create pulsing glow effect
 	glow_tween = create_tween()
@@ -106,7 +100,6 @@ func stop_glow():
 		return
 
 	is_glowing = false
-	print("dice: stopping glow effect")
 
 	if glow_tween:
 		glow_tween.kill()

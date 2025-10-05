@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cju3ht1n647mj"
-path="res://.godot/imported/hat-man-walk.png-1a0d6995c6390c13d9aabdfce798143d.ctex"
+uid="uid://b5riisbtyedej"
+path="res://.godot/imported/chef.png-4ce1946922cde41a38669482b58bd685.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/characters/hat-man-walk.png"
-dest_files=["res://.godot/imported/hat-man-walk.png-1a0d6995c6390c13d9aabdfce798143d.ctex"]
+source_file="res://assets/sprites/characters/chef.png"
+dest_files=["res://.godot/imported/chef.png-4ce1946922cde41a38669482b58bd685.ctex"]
 
 [params]
 
