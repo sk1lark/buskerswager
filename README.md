@@ -1,6 +1,5 @@
 # busker's wager 🎲🎵
 
-*made for hackclub shiba <3*, and
 [![Athena Award Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Faward.athena.hackclub.com%2Fapi%2Fbadge)](https://award.athena.hackclub.com?utm_source=readme)
 
 a cozy dice-rolling busker game with lute music and card mechanics! roll the dice, play your lute, and earn tips from passersby in this gothicvania-style pixel art game.
