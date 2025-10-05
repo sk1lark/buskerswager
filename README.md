@@ -1,42 +1,5 @@
-# busker's wager 🎲🎵
+# mr. shiba the busker
 
 [![Athena Award Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Faward.athena.hackclub.com%2Fapi%2Fbadge)](https://award.athena.hackclub.com?utm_source=readme)
 
-a cozy dice-rolling busker game with lute music and card mechanics! roll the dice, play your lute, and earn tips from passersby in this gothicvania-style pixel art game.
-
-## what is this?
-
-you're a street busker trying to make some coin! roll dice to determine your performance mood, play beautiful lute music, and use card shuffle mechanics to boost your luck and tips. the game features:
-
-- **dice-based mood system** - roll to set the crowd's vibe
-- **lute music** - 3 different tracks that play randomly during performances  
-- **card shuffle mechanics** - draw cards to boost your luck and tip multipliers
-- **pedestrian ai** - npcs walk by and stop to watch your performances
-
-## how to play
-
-1. **click the dice** to start a performance
-2. **your busker plays lute music** automatically during performances
-3. **pedestrians might stop** for card shuffles - draw cards for bonuses!
-4. **earn tips** based on your mood, luck, and performance quality
-5. **reach your nightly goal** to win!
-
-## tech stuff
-
-- built in **godot 4.5**
-- uses **audiomanager** for seamless music transitions
-- **card system** with 52-card deck and luck calculations
-- **crt shader** for that retro feel
-- all code is gdscript because why not
-
-## running the game
-
-1. open the project in godot 4.5+
-2. hit play!
-3. or export and run the executable
-
-## credits
-
-- lute music tracks (add your credits here!)
-- gothicvania asset pack
-- made with love for hackclub shiba (i'm praying for tokyo!!!!!)
+shoot music notes @ the falling words, then type them out. success = more money = success <3
