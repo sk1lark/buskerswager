@@ -1,120 +1,140 @@
-[gd_scene load_steps=13 format=3 uid="uid://be8ehtefkpryg"]
+[gd_scene load_steps=9 format=3 uid="uid://be8ehtefkpryg"]
 
 [ext_resource type="PackedScene" uid="uid://bw8y2s3txvtgp" path="res://scenes/main/Lane.tscn" id="1_lane"]
-[ext_resource type="PackedScene" uid="uid://dx53ovx1em4jq" path="res://scenes/ui/Dice.tscn" id="2_dice"]
 [ext_resource type="PackedScene" uid="uid://boeobjut8mkkp" path="res://scenes/characters/Busker.tscn" id="3_busker"]
 [ext_resource type="Script" uid="uid://cyy5qwnld271p" path="res://scripts/managers/GameManager.gd" id="4_gamemanager"]
 [ext_resource type="FontFile" uid="uid://d0mxjeht65xk1" path="res://assets/fonts/Jersey20-Regular.ttf" id="5_1rhdn"]
-[ext_resource type="Shader" uid="uid://brgb71bcwp78m" path="res://assets/shaders/crt_shader.gdshader" id="5_crt_shader"]
-[ext_resource type="PackedScene" uid="uid://b8k7m2oax5q1w" path="res://scenes/ui/CardShuffle.tscn" id="6_cardshuffle"]
 [ext_resource type="Script" uid="uid://uhoxvsbaku2u" path="res://scripts/managers/AudioManager.gd" id="7_audiomanager"]
 [ext_resource type="Theme" uid="uid://caetchwhyjrs4" path="res://scripts/gameplay/themes/default.tres" id="8_ostsq"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
-shader = ExtResource("5_crt_shader")
+[ext_resource type="Script" uid="uid://k1r6djctruxq" path="res://scripts/main/MainScene.gd" id="9_mainscene"]
 
 [sub_resource type="Theme" id="Theme_sjxhf"]
 default_font = ExtResource("5_1rhdn")
 default_font_size = 30
 
-[sub_resource type="LabelSettings" id="LabelSettings_3km4f"]
-
 [node name="Main" type="Node2D"]
+script = ExtResource("9_mainscene")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(512, 384)
-
-[node name="CRTFilter" type="ColorRect" parent="Camera2D"]
-material = SubResource("ShaderMaterial_crt")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -512.0
-offset_top = -384.0
-offset_right = 512.0
-offset_bottom = 384.0
 
 [node name="LaneInstance" parent="." instance=ExtResource("1_lane")]
 position = Vector2(512, 384)
 scale = Vector2(2.7, 2.7)
 
-[node name="Dice2D" parent="." instance=ExtResource("2_dice")]
-position = Vector2(100, 100)
-scale = Vector2(4, 4)
-
-[node name="VerseTimer" type="Timer" parent="."]
-wait_time = 10.0
+[node name="PerformanceTimer" type="Timer" parent="."]
+wait_time = 30.0
 one_shot = true
 
 [node name="BuskerInstance" parent="." instance=ExtResource("3_busker")]
-position = Vector2(691, 683.00006)
-scale = Vector2(21, 21)
+position = Vector2(565, 495)
+scale = Vector2(7, 7)
 
 [node name="HUDPanel" type="CanvasLayer" parent="."]
+
+[node name="ProgressBarBackground" type="ColorRect" parent="HUDPanel"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 50.0
+color = Color(0.05, 0.02, 0.1, 0.8)
+
+[node name="ProgressBarFill" type="ColorRect" parent="HUDPanel/ProgressBarBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.7, 0.3, 1)
+
+[node name="ProgressBarLabel" type="Label" parent="HUDPanel/ProgressBarBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("5_1rhdn")
+theme_override_font_sizes/font_size = 22
+text = "$0 / $50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BottomUIBackground" type="ColorRect" parent="HUDPanel"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+offset_right = 1024.0
+color = Color(0.05, 0.02, 0.1, 0.7)
 
 [node name="TopBar" type="HBoxContainer" parent="HUDPanel"]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -60.0
-offset_right = 600.0
-offset_bottom = -20.0
+offset_left = 15.0
+offset_top = -55.0
+offset_right = 700.0
+offset_bottom = -15.0
 theme = SubResource("Theme_sjxhf")
+theme_override_constants/separation = 15
 
-[node name="MoodLabel" type="Label" parent="HUDPanel/TopBar"]
+[node name="PerformanceLabel" type="Label" parent="HUDPanel/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "Mood: Distracted (x0.8)"
+theme_override_colors/font_color = Color(0.9, 0.85, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.05, 0.2, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 28
+text = "Words: 0 / 10"
 
 [node name="TipLabel" type="Label" parent="HUDPanel/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "Tips: $0"
+theme_override_colors/font_color = Color(1, 0.95, 0.6, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.05, 0.2, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 28
+text = "Tips: $0 / $50"
 horizontal_alignment = 1
 
-[node name="RerollButton" type="Button" parent="HUDPanel/TopBar"]
-layout_mode = 2
-text = "Reroll (1)"
-
-[node name="EventOddsBar" type="ProgressBar" parent="HUDPanel"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -100.0
-offset_right = 300.0
-offset_bottom = -80.0
-theme_override_fonts/font = ExtResource("5_1rhdn")
-theme_override_font_sizes/font_size = 30
-value = 30.0
-
-[node name="EventOddsLabel" type="Label" parent="HUDPanel"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 21.0
-offset_top = -140.0
-offset_right = 208.0
-offset_bottom = -109.0
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("5_1rhdn")
-theme_override_font_sizes/font_size = 30
-text = "Event Odds: 30%"
+[node name="TopRightBackground" type="ColorRect" parent="HUDPanel"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -520.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 55.0
+color = Color(0.05, 0.02, 0.1, 0.6)
 
 [node name="GoalLabel" type="Label" parent="HUDPanel"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -200.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 40.0
+offset_left = -510.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(1, 0.95, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.05, 0.2, 0.9)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("5_1rhdn")
-theme_override_font_sizes/font_size = 45
-text = "Goal: $30"
+theme_override_font_sizes/font_size = 36
+text = "Night 1/5 | Career: $0"
+horizontal_alignment = 2
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("4_gamemanager")
@@ -122,35 +142,126 @@ script = ExtResource("4_gamemanager")
 [node name="AudioManager" type="Node" parent="."]
 script = ExtResource("7_audiomanager")
 
-[node name="NotificationLabel" type="Label" parent="."]
+[node name="DimOverlay" type="CanvasLayer" parent="."]
+layer = 9
+
+[node name="DimRect" type="ColorRect" parent="DimOverlay"]
 modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="NotificationLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="NotificationLabel" type="Label" parent="NotificationLayer"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = 100.0
+offset_right = -120.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_ostsq")
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.15, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 4
+theme_override_constants/line_spacing = 6
+theme_override_fonts/font = ExtResource("5_1rhdn")
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TypingArea" type="VBoxContainer" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 312.0
-offset_top = 284.0
-offset_right = 712.0
-offset_bottom = 334.0
-theme = ExtResource("8_ostsq")
-theme_override_colors/font_color = Color(1, 1, 0.5, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
+offset_left = -400.0
+offset_top = -200.0
+offset_right = 400.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="CurrentWordLabel" type="Label" parent="TypingArea"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0.6, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.15, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("5_1rhdn")
+theme_override_font_sizes/font_size = 72
+horizontal_alignment = 1
+
+[node name="TypedInputLabel" type="Label" parent="TypingArea"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 1, 0.6, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.15, 1)
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("5_1rhdn")
 theme_override_font_sizes/font_size = 48
-label_settings = SubResource("LabelSettings_3km4f")
+horizontal_alignment = 1
+
+[node name="FlashOverlay" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="FlashRect" type="ColorRect" parent="FlashOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="CutsceneOverlay" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="CutsceneBackground" type="ColorRect" parent="CutsceneOverlay"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CutsceneLabel" type="Label" parent="CutsceneOverlay"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = 100.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("5_1rhdn")
+theme_override_font_sizes/font_size = 40
+text = "Cutscene text goes here"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="CardShuffle" parent="." instance=ExtResource("6_cardshuffle")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 1010.0
-offset_top = 300.0
-offset_right = 1010.0
-offset_bottom = 300.0
-grow_horizontal = 1
-grow_vertical = 1
+autowrap_mode = 2

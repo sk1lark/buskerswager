@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8k7m2oax5q1w"]
+[gd_scene load_steps=3 format=3 uid="uid://dfyo5a0v78xhe"]
 
 [ext_resource type="Script" uid="uid://b6r6jp3i3nq6o" path="res://scripts/gameplay/CardShuffle.gd" id="1_script"]
 [ext_resource type="Theme" uid="uid://caetchwhyjrs4" path="res://scripts/gameplay/themes/default.tres" id="2_5rtgw"]

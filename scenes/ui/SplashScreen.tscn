@@ -2,13 +2,13 @@
 
 [ext_resource type="FontFile" uid="uid://cu3geg22x7rh2" path="res://assets/fonts/BlueScreenPersonalUseRegular-0W1M9.ttf" id="1_title_font"]
 [ext_resource type="Script" uid="uid://dfttk0wp23tql" path="res://scripts/ui/SplashScreen.gd" id="2_script"]
-[ext_resource type="FontFile" uid="uid://bgr7b8tjgdv0x" path="res://assets/fonts/XeDogmaRegular-JZwB.ttf" id="3_jsqgk"]
-[ext_resource type="Texture2D" path="res://assets/sprites/busker's wager.jpg" id="4_background"]
-[ext_resource type="AudioStream" uid="uid://b8g7rxvn0nvxr" path="res://assets/audio/music/splash/splash.ogg" id="5_splash_music"]
-[ext_resource type="Shader" uid="uid://brgb71bcwp78m" path="res://assets/shaders/crt_shader.gdshader" id="6_crt_shader"]
+[ext_resource type="FontFile" uid="uid://cpknmx7l3ynrn" path="res://assets/fonts/LoveheartsXyz-y28V.ttf" id="4_1rht0"]
+[ext_resource type="FontFile" uid="uid://d0mxjeht65xk1" path="res://assets/fonts/Jersey20-Regular.ttf" id="4_18ajr"]
+[ext_resource type="FontFile" uid="uid://c6qy3kg7bm2kh" path="res://assets/fonts/AncientModernTales-a7Po.ttf" id="4_42ppo"]
+[ext_resource type="AudioStream" uid="uid://rdpkqng8xqk" path="res://assets/audio/music/splash/splash.ogg" id="5_splash_music"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_crt_splash"]
-shader = ExtResource("6_crt_shader")
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_18ajr"]
+load_path = "res://.godot/imported/busker's wager.jpg-60a24f643e851db11662567088e53b0e.ctex"
 
 [sub_resource type="Theme" id="Theme_splash"]
 default_font = ExtResource("1_title_font")
@@ -24,13 +24,14 @@ grow_vertical = 2
 script = ExtResource("2_script")
 
 [node name="Background" type="TextureRect" parent="."]
+modulate = Color(0.6, 0.6, 0.6, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_background")
+texture = SubResource("CompressedTexture2D_18ajr")
 expand_mode = 1
 stretch_mode = 6
 
@@ -51,59 +52,95 @@ grow_vertical = 2
 [node name="TitleLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_splash")
-theme_override_font_sizes/font_size = 70
-text = "THE BUSKER'S WAGER"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("4_42ppo")
+theme_override_font_sizes/font_size = 147
+text = "mr. shiba the busker"
 horizontal_alignment = 1
 
 [node name="SubtitleLabel" type="Label" parent="VBoxContainer"]
-modulate = Color(0.8, 0.8, 0.9, 1)
 layout_mode = 2
 theme = SubResource("Theme_splash")
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("3_jsqgk")
-theme_override_font_sizes/font_size = 25
-text = "ROLL THE DICE & PLAY YOUR TUNE. WHAT WILL THE TOWNSFOLK THINK?"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("4_1rht0")
+theme_override_font_sizes/font_size = 40
+text = "~ a cozy typing + shooter hybrid game! ~"
 horizontal_alignment = 1
 
 [node name="VSeparator" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
 [node name="MenuContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
+theme_override_constants/separation = 15
 
-[node name="PlayButton" type="Button" parent="VBoxContainer/MenuContainer"]
-custom_minimum_size = Vector2(200, 60)
+[node name="PlayContainer" type="HBoxContainer" parent="VBoxContainer/MenuContainer"]
 layout_mode = 2
-theme = SubResource("Theme_splash")
-theme_override_font_sizes/font_size = 28
-text = "PLAY"
+theme_override_constants/separation = 15
+alignment = 1
 
-[node name="VSeparator2" type="Control" parent="VBoxContainer/MenuContainer"]
-custom_minimum_size = Vector2(0, 20)
+[node name="PlayArrow" type="Label" parent="VBoxContainer/MenuContainer/PlayContainer"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.5, 1)
+theme_override_colors/font_outline_color = Color(1, 0.85, 0.5, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_18ajr")
+theme_override_font_sizes/font_size = 56
+text = ">"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer/MenuContainer"]
-custom_minimum_size = Vector2(200, 60)
+[node name="PlayLabel" type="RichTextLabel" parent="VBoxContainer/MenuContainer/PlayContainer"]
+custom_minimum_size = Vector2(400, 70)
 layout_mode = 2
-theme = SubResource("Theme_splash")
-theme_override_font_sizes/font_size = 28
-text = "QUIT"
+theme_override_colors/default_color = Color(1, 0.95, 0.85, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/normal_font = ExtResource("4_18ajr")
+theme_override_font_sizes/normal_font_size = 56
+bbcode_enabled = true
+text = "start adventure"
+fit_content = true
+scroll_active = false
+
+[node name="QuitContainer" type="HBoxContainer" parent="VBoxContainer/MenuContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="QuitArrow" type="Label" parent="VBoxContainer/MenuContainer/QuitContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.6, 0.6, 1)
+theme_override_colors/font_outline_color = Color(1, 0.6, 0.6, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_18ajr")
+theme_override_font_sizes/font_size = 56
+text = ">"
+
+[node name="QuitLabel" type="Label" parent="VBoxContainer/MenuContainer/QuitContainer"]
+layout_mode = 2
+mouse_filter = 0
+theme_override_colors/font_color = Color(1, 0.8, 0.8, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("4_18ajr")
+theme_override_font_sizes/font_size = 56
+text = "quit"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_splash_music")
 volume_db = -5.0
-autoplay = false
-
-[node name="CRTOverlay" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-material = SubResource("ShaderMaterial_crt_splash")
-color = Color(1, 1, 1, 0)
-mouse_filter = 2

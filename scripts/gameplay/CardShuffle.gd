@@ -37,23 +37,17 @@ const CARD_VALUES = {
 func _ready():
     card_atlas = preload("res://assets/sprites/ui/cards/card_atlas.png")
     _setup_card_textures()
-    
-    print("CardShuffle: Setting up button connections...")
-    print("CardShuffle: draw_button = ", draw_button)
-    print("CardShuffle: skip_button = ", skip_button)
-    
+
     if draw_button:
         draw_button.pressed.connect(_on_draw_pressed)
-        print("CardShuffle: Draw button connected!")
     else:
-        print("ERROR: Draw button not found!")
-        
+        push_error("CardShuffle: Draw button not found!")
+
     if skip_button:
         skip_button.pressed.connect(_on_skip_pressed)
-        print("CardShuffle: Skip button connected!")
     else:
-        print("ERROR: Skip button not found!")
-    
+        push_error("CardShuffle: Skip button not found!")
+
     visible = false
 
 func _setup_card_textures():
@@ -76,15 +70,13 @@ func _setup_card_textures():
             card_textures.append(atlas_texture)
 
 func show_card_shuffle():
-    print("CardShuffle: show_card_shuffle() called")
     visible = true
     # Reset cards to back and start shuffle animation
     var card_nodes = card_container.get_children()
     for card in card_nodes:
         if card is TextureRect:
             card.texture = card_back_texture
-    
-    print("CardShuffle: Starting shuffle animation")
+
     # Shuffle animation
     _animate_shuffle()
 
@@ -114,42 +106,59 @@ func _animate_shuffle():
     await get_tree().create_timer(0.5).timeout
 
 func _on_draw_pressed():
-    print("CardShuffle: Draw button pressed!")
+    # Disable buttons during animation
+    draw_button.disabled = true
+    skip_button.disabled = true
+
     var drawn_cards = _draw_random_cards(3)
     var luck_modifier = _calculate_luck_modifier(drawn_cards)
     var tip_multiplier = _calculate_tip_multiplier(drawn_cards)
-    
-    print("CardShuffle: Starting card reveal animation...")
-    
-    # Animate card reveals
+
+    # Dramatic pause before reveals
+    await get_tree().create_timer(0.5).timeout
+
+    # Animate card reveals with more juice
     var card_nodes = card_container.get_children()
     for i in range(min(3, card_nodes.size())):
         if card_nodes[i] is TextureRect and i < drawn_cards.size():
-            await get_tree().create_timer(0.3).timeout
-            
-            # Flip animation
             var card = card_nodes[i]
-            var tween = create_tween()
-            tween.tween_property(card, "scale:x", 0, 0.15)
-            await tween.finished
-            
+
+            # Highlight the card being revealed
+            var glow_tween = create_tween()
+            glow_tween.tween_property(card, "modulate", Color.YELLOW, 0.2)
+
+            await get_tree().create_timer(0.4).timeout
+
+            # Dramatic flip with bounce
+            var flip_tween = create_tween()
+            flip_tween.set_parallel(true)
+            flip_tween.tween_property(card, "scale:x", 0, 0.2).set_ease(Tween.EASE_IN)
+            flip_tween.tween_property(card, "rotation", PI/4, 0.2).set_ease(Tween.EASE_IN)
+            await flip_tween.finished
+
+            # Play card flip sound
+            var audio_manager = get_node("../../AudioManager")
+            if audio_manager and audio_manager.has_method("play_cards_sound"):
+                audio_manager.play_cards_sound()
+
             # Change texture when card is "flipped"
             card.texture = drawn_cards[i]
-            
-            # Flip back
-            tween = create_tween()
-            tween.tween_property(card, "scale:x", 1, 0.15)
-    
+
+            # Flip back with bounce
+            flip_tween = create_tween()
+            flip_tween.set_parallel(true)
+            flip_tween.tween_property(card, "scale:x", 1.1, 0.15).set_ease(Tween.EASE_OUT)
+            flip_tween.tween_property(card, "rotation", 0, 0.15).set_ease(Tween.EASE_OUT)
+            flip_tween.tween_property(card, "scale:x", 1.0, 0.1).set_ease(Tween.EASE_IN).set_delay(0.15)
+            flip_tween.tween_property(card, "modulate", Color.WHITE, 0.3).set_delay(0.2)
+
     # Wait a moment then emit result
-    await get_tree().create_timer(2.0).timeout
-    print("CardShuffle: Emitting cards_drawn signal with luck=%.2f, tip=%.2f" % [luck_modifier, tip_multiplier])
+    await get_tree().create_timer(1.5).timeout
     cards_drawn.emit(luck_modifier, tip_multiplier)
     visible = false
 
 func _on_skip_pressed():
-    print("CardShuffle: Skip button pressed!")
     shuffle_skipped.emit()
-    visible = false
     visible = false
 
 func _draw_random_cards(count: int) -> Array[AtlasTexture]:
@@ -181,14 +190,82 @@ func _calculate_luck_modifier(cards: Array[AtlasTexture]) -> float:
 
 func _calculate_tip_multiplier(cards: Array[AtlasTexture]) -> float:
     var multiplier = 1.0
+    var card_values = []
+    var card_suits = []
+
+    # Get values and suits for synergy checking
     for card in cards:
         var value = _get_card_value(card)
-        
+        var suit = _get_card_suit(card)
+        card_values.append(value)
+        card_suits.append(suit)
+
+        # Base card bonuses
         if value == 14:  # Ace
             multiplier += 0.5
         elif value >= 11:  # Face cards (J, Q, K)
             multiplier += 0.3
         elif value >= 8:  # High cards
             multiplier += 0.1
-    
-    return multiplier
+
+    # Check for synergies
+    var synergy_bonus = _calculate_synergy_bonus(card_values, card_suits)
+    return multiplier + synergy_bonus
+
+func _get_card_suit(card: AtlasTexture) -> int:
+    var card_index = card_textures.find(card)
+    if card_index == -1:
+        return 0
+    return int(card_index / CARDS_PER_ROW)  # 0=Hearts, 1=Spades, 2=Diamonds, 3=Clubs
+
+func _calculate_synergy_bonus(values: Array, suits: Array) -> float:
+    var bonus = 0.0
+
+    # Synergy 1: Three of a Kind (same value) = +1.0 multiplier
+    var value_counts = {}
+    for value in values:
+        value_counts[value] = value_counts.get(value, 0) + 1
+    for count in value_counts.values():
+        if count == 3:
+            bonus += 1.0
+
+    # Synergy 2: All Same Suit (flush) = +0.8 multiplier
+    var unique_suits = {}
+    for suit in suits:
+        unique_suits[suit] = true
+    if unique_suits.size() == 1:
+        bonus += 0.8
+
+    # Synergy 3: Straight (consecutive values) = +0.6 multiplier
+    if _is_straight(values):
+        bonus += 0.6
+
+    # Synergy 4: All Face Cards (J, Q, K) = +0.7 multiplier
+    var all_face_cards = true
+    for value in values:
+        if value < 11 or value > 13:
+            all_face_cards = false
+            break
+    if all_face_cards:
+        bonus += 0.7
+
+    # Synergy 5: All Aces = +1.5 multiplier (rare but powerful)
+    var all_aces = true
+    for value in values:
+        if value != 14:
+            all_aces = false
+            break
+    if all_aces:
+        bonus += 1.5
+
+    return bonus
+
+func _is_straight(values: Array) -> bool:
+    var sorted_values = values.duplicate()
+    sorted_values.sort()
+
+    # Check for consecutive values
+    for i in range(1, sorted_values.size()):
+        if sorted_values[i] != sorted_values[i-1] + 1:
+            return false
+    return true

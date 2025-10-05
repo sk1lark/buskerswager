@@ -10,9 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Busker's Wager"
+config/name="MR. SHIBA THE BUSKER"
 run/main_scene="res://scenes/ui/SplashScreen.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
+boot_splash/bg_color=Color(0.32588184, 0.01097284, 6.016344e-08, 1)
+boot_splash/image="uid://big0make5wo8h"
 config/icon="res://icon.svg"
 
 [display]
@@ -21,6 +23,16 @@ window/size/viewport_width=1024
 window/size/viewport_height=768
 window/stretch/mode="viewport"
 
+[editor]
+
+movie_writer/movie_file="C:/Users/hayde/Downloads/play.avi"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
